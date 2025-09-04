@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
+
+import Providers from "@/providers";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -10,6 +13,32 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
 	variable: "--font-geist-mono",
 	subsets: ["latin"],
+});
+
+const jetBrainsMono = JetBrains_Mono({
+	variable: "--font-jetbrains-mono",
+});
+
+const ephidona = localFont({
+	src: [
+		{
+			path: "./fonts/Ephidona_1.woff",
+			weight: "400",
+			style: "normal",
+		},
+		{
+			path: "./fonts/Ephidona.otf",
+			weight: "400",
+			style: "normal",
+		},
+		{
+			path: "./fonts/Ephidona.ttf",
+			weight: "400",
+			style: "normal",
+		},
+	],
+	variable: "--font-ephidona",
+	display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -23,11 +52,14 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
+		<html lang="en" suppressHydrationWarning>
 			<body
-				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+				className={`${geistSans.variable} ${geistMono.variable} ${jetBrainsMono.variable} ${ephidona.variable} antialiased`}
 			>
-				{children}
+				<Providers>
+					<header className="p-4 text-4xl">WunderScout Analytics</header>
+					<main className="">{children}</main>
+				</Providers>
 			</body>
 		</html>
 	);

@@ -1,3 +1,9 @@
+import GameUploadForm from "./components/GameUploadForm";
+
 export default function Home() {
-	return <div>WunderScout Soccer Analytics</div>;
+	return (
+		<div className="">
+			<GameUploadForm />
+		</div>
+	);
 }
