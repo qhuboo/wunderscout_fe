@@ -157,15 +157,9 @@ export default function GameUploadForm() {
 						</div>
 					)}
 					{progress === 100 && <p>✅ Upload complete!</p>}
-					{messages.length > 0 &&
-						messages.map((msg, i) => {
-							return (
-								<li key={i}>
-									WebSocket Messages: {msg?.message}
-									<div>{msg?.frame}</div>
-								</li>
-							);
-						})}
+          <div>
+            {messages.length > 1 && messages[messages.length - 1]?.status}
+          </div>
 				</CardFooter>
 			</form>
 		</Card>
