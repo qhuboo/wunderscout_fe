@@ -19,25 +19,30 @@ const jetBrainsMono = JetBrains_Mono({
 	variable: "--font-jetbrains-mono",
 });
 
-const ephidona = localFont({
+const berkeleyMono = localFont({
 	src: [
 		{
-			path: "./fonts/Ephidona_1.woff",
+			path: "./fonts/TX-02-Regular.otf",
 			weight: "400",
 			style: "normal",
 		},
 		{
-			path: "./fonts/Ephidona.otf",
-			weight: "400",
+			path: "./fonts/TX-02-Bold.otf",
+			weight: "700",
 			style: "normal",
 		},
 		{
-			path: "./fonts/Ephidona.ttf",
+			path: "./fonts/TX-02-Oblique.otf",
 			weight: "400",
-			style: "normal",
+			style: "oblique",
 		},
+    {
+      path: "./fonts/TX-02-Bold-Oblique.otf",
+      weight: "700",
+      style: "oblique",
+    },
 	],
-	variable: "--font-ephidona",
+	variable: "--font-berkeley",
 	display: "swap",
 });
 
@@ -54,11 +59,11 @@ export default function RootLayout({
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body
-				className={`${geistSans.variable} ${geistMono.variable} ${jetBrainsMono.variable} ${ephidona.variable} antialiased`}
+				className={`${geistSans.variable} ${geistMono.variable} ${jetBrainsMono.variable} ${berkeleyMono.variable} antialiased flex flex-col min-h-dvh`}
 			>
 				<Providers>
-					<header className="p-4 text-4xl">WunderScout Analytics</header>
-					<main className="">{children}</main>
+					<header className="p-4 text-2xl text-gray-500 shrink-0">WunderScout Analytics</header>
+					<main className="border-2 border-green-500 flex-1 flex flex-col">{children}</main>
 				</Providers>
 			</body>
 		</html>
