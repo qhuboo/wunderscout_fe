@@ -1,3 +1,5 @@
+import ThreeScene from "./components/ThreeScene";
+
 export default function Page() {
   return (
     <div className="p-2 flex-1 border-3 border-dashed border-red-500">
@@ -10,13 +12,21 @@ export default function Page() {
         </div>
         <div className="grid grid-rows-[1fr_7fr_auto] border-2 border-blue-300">
           <div className="border-1 border-dashed border-white">Item 1</div>
-          <div className="border-1 border-dashed border-white">Item 2</div>
+          <div className="relative overflow-hidden min-h-0 border-1 border-dashed border-white">
+            <ThreeScene />
+          </div>
           <div className="border-1 border-dashed border-white">Item 3</div>
         </div>
       </div>
       {/* Mobile Layout */}
       <div className="lg:hidden h-full border-2 border-white">
-        <section>This is the only side.</section>
+        <div className="grid grid-rows-[1fr_7fr_auto] h-full">
+          <div className="border-1 border-dashed border-white">Item 1</div>
+          <div className="overflow-hidden min-h-0 border-1 border-dashed border-white">
+            <ThreeScene />
+          </div>
+          <div className="border-1 border-dashed border-white">Item 3</div>
+        </div>
       </div>
     </div>
   );
