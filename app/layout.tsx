@@ -6,70 +6,61 @@ import "./globals.css";
 import Providers from "@/providers";
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+	variable: "--font-geist-sans",
+	subsets: ["latin"],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+	variable: "--font-geist-mono",
+	subsets: ["latin"],
 });
 
 const jetBrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
+	variable: "--font-jetbrains-mono",
 });
 
-const berkeleyMono = localFont({
-  src: [
-    {
-      path: "./fonts/TX-02-Regular.otf",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "./fonts/TX-02-Bold.otf",
-      weight: "700",
-      style: "normal",
-    },
-    {
-      path: "./fonts/TX-02-Oblique.otf",
-      weight: "400",
-      style: "oblique",
-    },
-    {
-      path: "./fonts/TX-02-Bold-Oblique.otf",
-      weight: "700",
-      style: "oblique",
-    },
-  ],
-  variable: "--font-berkeley",
-  display: "swap",
+const ephidona = localFont({
+	src: [
+		{
+			path: "./fonts/Ephidona_1.woff",
+			weight: "400",
+			style: "normal",
+		},
+		{
+			path: "./fonts/Ephidona.otf",
+			weight: "400",
+			style: "normal",
+		},
+		{
+			path: "./fonts/Ephidona.ttf",
+			weight: "400",
+			style: "normal",
+		},
+	],
+	variable: "--font-ephidona",
+	display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "WunderScout",
-  description: "Soccer Analytics",
+	title: "WunderScout",
+	description: "Soccer Analytics",
 };
 
 export default function RootLayout({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${jetBrainsMono.variable} ${berkeleyMono.variable} antialiased flex flex-col min-h-dvh`}
-      >
-        <Providers>
-          <header className="p-4 text-2xl text-gray-500 shrink-0">
-            WunderScout Analytics
-          </header>
-          <main className="border-2 border-green-500 flex-1 flex">
-            {children}
-          </main>
-        </Providers>
-      </body>
-    </html>
-  );
+	return (
+		<html lang="en" suppressHydrationWarning>
+			<body
+				className={`${geistSans.variable} ${geistMono.variable} ${jetBrainsMono.variable} ${ephidona.variable} antialiased`}
+			>
+				<Providers>
+					<header className="p-4 text-4xl">WunderScout Analytics</header>
+					<main className="">{children}</main>
+				</Providers>
+			</body>
+		</html>
+	);
 }
