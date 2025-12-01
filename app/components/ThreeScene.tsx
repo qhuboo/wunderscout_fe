@@ -5,6 +5,8 @@ import { OrbitControls, Grid } from "@react-three/drei";
 import * as THREE from "three";
 
 import { Raymarcher } from "./Raymarcher";
+import { Heatmap } from "./Heatmap";
+import Plane from "./Plane";
 
 extend({ AxesHelper: THREE.AxesHelper });
 
@@ -21,7 +23,9 @@ export default function ThreeScene() {
       <directionalLight />
       <axesHelper args={[5]} />
       <OrbitControls />
-      <Raymarcher />
+      {/* <Raymarcher /> */}
+      {/* <Heatmap heightScale={15} glowIntensity={0.8} color={[0, 0.5, 1]} />*/}
+      <Plane />
     </Canvas>
   );
 }
