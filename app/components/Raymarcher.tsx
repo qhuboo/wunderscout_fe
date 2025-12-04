@@ -2,56 +2,56 @@ import { useRef, useMemo } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 
-import vertexShader from "./shaders/vertexShader.glsl";
-import fragmentShader from "./shaders/fragmentShader.glsl";
+import vertexShader from "./shaders/sphereVertexShader.glsl";
+import fragmentShader from "./shaders/sphereFragmentShader.glsl";
 
-interface RaymarcherProps {
-  glowIntensity?: number;
-  sphereSpeed?: number;
-  sphereColor?: [number, number, number];
+interface VaporWaveUniforms {
+  uTime: { value: number };
+  uResolution: { value: THREE.Vector2 };
+  uCameraWorldMatrix: { value: THREE.Matrix4 };
+  [uniform: string]: { value: any };
 }
 
-export function Raymarcher({
-  glowIntensity = 0.14,
-  sphereSpeed = 1,
-  sphereColor = [0, 0.25, 1],
-}: RaymarcherProps) {
-  const meshRef = useRef<THREE.Mesh>(null);
+export const Raymarcher = () => {
+  const materialRef = useRef<THREE.ShaderMaterial>(null);
   const { size, camera } = useThree();
 
-  const uniforms = useMemo(
+  const uniforms = useMemo<VaporWaveUniforms>(
     () => ({
       uTime: { value: 0 },
-      uFloorAngle: { value: 0 },
-      uSphereAngle: { value: 0 },
-      uGlowIntensity: { value: glowIntensity },
       uResolution: { value: new THREE.Vector2(size.width, size.height) },
-      uSphereColor: { value: new THREE.Vector3(...sphereColor) },
-      uCameraPosition: { value: new THREE.Vector3() },
-      uCameraMatrix: { value: new THREE.Matrix4() },
+      uCameraWorldMatrix: { value: new THREE.Matrix4() },
     }),
-    [],
+    [size.width, size.height],
   );
 
-  useFrame((_, delta) => {
-    uniforms.uTime.value += delta;
-    uniforms.uSphereAngle.value += delta * sphereSpeed;
-    uniforms.uGlowIntensity.value = glowIntensity;
-    uniforms.uResolution.value.set(size.width, size.height);
-    uniforms.uSphereColor.value.set(...sphereColor);
-    uniforms.uCameraPosition.value.copy(camera.position);
-    uniforms.uCameraMatrix.value.copy(camera.matrixWorld);
+  useFrame((state) => {
+    if (materialRef.current) {
+      materialRef.current.uniforms.uTime.value = state.clock.elapsedTime;
+
+      materialRef.current.uniforms.uResolution.value.set(
+        state.size.width,
+        state.size.height,
+      );
+
+      materialRef.current.uniforms.uCameraWorldMatrix.value.copy(
+        camera.matrixWorld,
+      );
+    }
   });
 
   return (
-    <mesh ref={meshRef}>
+    <mesh renderOrder={-1} frustumCulled={false}>
       <planeGeometry args={[2, 2]} />
-      <shaderMaterial
+      <rawShaderMaterial
+        ref={materialRef}
         vertexShader={vertexShader}
         fragmentShader={fragmentShader}
         uniforms={uniforms}
         transparent={true}
+        depthWrite={false}
+        depthTest={false}
       />
     </mesh>
   );
-}
+};
