@@ -19,7 +19,7 @@ extend({ AxesHelper: THREE.AxesHelper });
 export default function ThreeScene() {
   return (
     <Canvas
-      camera={{ position: [0, 15, 15], fov: 75 }}
+      camera={{ position: [0, 80, 80], fov: 75 }}
       style={{
         width: "100%",
         height: "100%",
