@@ -18,8 +18,6 @@ const vec3 SPHERE_COLOR = vec3(0.0, 0.25, 1.0);
 
 // ================= NOISE FUNCTION =================
 // Simplex 3D Noise 
-// (Adapted from standard webgl-noise to fix the 'm' variable issue)
-
 vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
 vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
 vec4 permute(vec4 x) { return mod289(((x*34.0)+1.0)*x); }
