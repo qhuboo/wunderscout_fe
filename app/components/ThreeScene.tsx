@@ -16,7 +16,14 @@ import HeatmapTerrain from "./HeatmapTerrain";
 
 extend({ AxesHelper: THREE.AxesHelper });
 
-export default function ThreeScene() {
+const visualizationComponents = {
+  heatmap: HeatmapTerrain,
+  plane: Plane,
+}
+
+export default function ThreeScene({ visualizationType }: { visualizationType: string }) {
+  const SelectedVisualization = visualizationComponents[visualizationType as keyof typeof visualizationComponents];
+
   return (
     <Canvas
       camera={{ position: [0, 80, 80], fov: 75 }}
@@ -29,7 +36,7 @@ export default function ThreeScene() {
       <directionalLight />
       <axesHelper args={[5]} />
       <OrbitControls />
-      <HeatmapTerrain data={heatmapData} />
+      <SelectedVisualization data={heatmapData} />
     </Canvas>
   );
 }

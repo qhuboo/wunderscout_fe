@@ -3,8 +3,9 @@ import vertexShader from "./shaders/vertexShader.glsl";
 import fragmentShader from "./shaders/fragmentShader.glsl";
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
+import { HeatmapData } from "../types/types";
 
-export default function Plane() {
+export default function Plane({ data }: { data: HeatmapData }) {
   const materialRef = useRef(null);
 
   const uniforms = {
