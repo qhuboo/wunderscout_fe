@@ -26,6 +26,9 @@ export default async function Page({
   const player = validSearchParams.get("player");
   const team = validSearchParams.get("team");
 
+  console.log("type: ", type);
+  console.log("player: ", player);
+
   const res = await fetchGameData(gameId, validSearchParams);
 
   if (res.error) {
