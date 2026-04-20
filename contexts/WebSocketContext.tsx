@@ -18,20 +18,20 @@ export const WebSocketProvider = ({
 	const [messages, setMessages] = useState<any[]>([]);
 
 	useEffect(() => {
-		const socket = new WebSocket("ws://localhost:4000");
+		const socket = new WebSocket(`${process.env.NEXT_PUBLIC_WS_URL}`);
 
 		socket.onopen = () => {
-			console.log("Connected to the WebSocket server.");
+			console.log("FE[WebSocketProvider][onopen]: Connected to the WebSocket server.");
 		};
 
 		socket.onmessage = (event) => {
 			const data = JSON.parse(event.data);
-			console.log("Received: ", data);
+			console.log("FE[WebSocketProvider][onmessage]: Received: ", data);
 			setMessages((prev) => [...prev, data]);
 		};
 
 		socket.onclose = () => {
-			console.log("WebSocket closed, reconnecting ...");
+			console.log("FE[WebSocketProvider][onclose]: WebSocket closed, reconnecting ...");
 			setTimeout(() => {
 				setWs(new WebSocket("ws://localhost:4000"));
 			}, 1000);

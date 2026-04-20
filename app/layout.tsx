@@ -51,16 +51,20 @@ export default function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	return (
-		<html lang="en" suppressHydrationWarning>
-			<body
-				className={`${geistSans.variable} ${geistMono.variable} ${jetBrainsMono.variable} ${ephidona.variable} antialiased`}
-			>
-				<Providers>
-					<header className="p-4 text-4xl">WunderScout Analytics</header>
-					<main className="">{children}</main>
-				</Providers>
-			</body>
-		</html>
-	);
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} ${jetBrainsMono.variable} ${berkeleyMono.variable} antialiased flex flex-col min-h-dvh`}
+      >
+        <Providers>
+          <header className="p-4 text-2xl text-gray-500 shrink-0">
+            WunderScout Analytics
+          </header>
+          <main className="flex-1 flex">
+            {children}
+          </main>
+        </Providers>
+      </body>
+    </html>
+  );
 }
