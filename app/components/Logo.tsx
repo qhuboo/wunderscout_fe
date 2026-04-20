@@ -16,7 +16,7 @@ export default function Logo() {
       new THREE.Vector3(1, 0, -0.5),
       new THREE.Vector3(0, 0.5, 1),
     ],
-    []
+    [],
   );
 
   const attractorsRotationAxes = useMemo(
@@ -25,7 +25,7 @@ export default function Logo() {
       new THREE.Vector3(0, 1, 0),
       new THREE.Vector3(1, 0, -0.5).normalize(),
     ],
-    []
+    [],
   );
 
   // Physics constants
@@ -41,7 +41,7 @@ export default function Logo() {
       colorA: new THREE.Color("#123524"),
       colorB: new THREE.Color("#39FF14"),
     }),
-    []
+    [],
   );
 
   // Hash function (from Three.js TSL)
@@ -91,15 +91,15 @@ export default function Logo() {
     const geo = new THREE.PlaneGeometry(1, 1);
     geo.setAttribute(
       "instancePosition",
-      new THREE.InstancedBufferAttribute(buffers.positions, 3)
+      new THREE.InstancedBufferAttribute(buffers.positions, 3),
     );
     geo.setAttribute(
       "instanceColor",
-      new THREE.InstancedBufferAttribute(buffers.colors, 3)
+      new THREE.InstancedBufferAttribute(buffers.colors, 3),
     );
     geo.setAttribute(
       "instanceScale",
-      new THREE.InstancedBufferAttribute(buffers.massMultipliers, 1)
+      new THREE.InstancedBufferAttribute(buffers.massMultipliers, 1),
     );
     return geo;
   }, [buffers]);
@@ -124,7 +124,7 @@ export default function Logo() {
         attribute vec3 instanceColor;
         attribute float instanceScale;
         varying vec3 vInstanceColor;
-        `
+        `,
       );
 
       shader.vertexShader = shader.vertexShader.replace(
@@ -134,7 +134,7 @@ export default function Logo() {
         vInstanceColor = instanceColor;
         transformed = transformed * instanceScale * 0.008;
         transformed += instancePosition;
-        `
+        `,
       );
 
       shader.fragmentShader = shader.fragmentShader.replace(
@@ -142,7 +142,7 @@ export default function Logo() {
         `
         #include <common>
         varying vec3 vInstanceColor;
-        `
+        `,
       );
 
       shader.fragmentShader = shader.fragmentShader.replace(
@@ -150,7 +150,7 @@ export default function Logo() {
         `
         #include <color_fragment>
         diffuseColor.rgb = vInstanceColor;
-        `
+        `,
       );
     };
 
@@ -158,7 +158,7 @@ export default function Logo() {
   }, []);
 
   // Physics update loop
-  useFrame((state, delta) => {
+  useFrame((_state, _delta) => {
     if (!meshRef.current) return;
 
     const dt = 1 / 60; // Fixed timestep
@@ -265,9 +265,12 @@ export default function Logo() {
       const t = Math.min(1, speedNorm);
       // Smoothstep
       const colorMix = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-      colors[idx] = config.colorA.r + (config.colorB.r - config.colorA.r) * colorMix;
-      colors[idx + 1] = config.colorA.g + (config.colorB.g - config.colorA.g) * colorMix;
-      colors[idx + 2] = config.colorA.b + (config.colorB.b - config.colorA.b) * colorMix;
+      colors[idx] =
+        config.colorA.r + (config.colorB.r - config.colorA.r) * colorMix;
+      colors[idx + 1] =
+        config.colorA.g + (config.colorB.g - config.colorA.g) * colorMix;
+      colors[idx + 2] =
+        config.colorA.b + (config.colorB.b - config.colorA.b) * colorMix;
     }
 
     // Mark attributes for update
@@ -282,5 +285,6 @@ export default function Logo() {
         args={[geometry, material, count]}
         frustumCulled={false}
       />
-    </group>  );
+    </group>
+  );
 }

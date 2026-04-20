@@ -75,6 +75,10 @@ export default function GameUploadForm() {
             },
           );
 
+          if (!res.ok) {
+            console.log("Error");
+          }
+
           if (ws?.readyState === WebSocket.OPEN) {
             console.log("FE: Subscribing to job.");
             ws.send(JSON.stringify({ jobId }));
