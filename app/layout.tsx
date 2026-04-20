@@ -20,8 +20,30 @@ const jetBrainsMono = JetBrains_Mono({
 });
 
 const berkeleyMono = localFont({
-  src: "../public/fonts/TX-02-Regular.otf",
-  variable: "--font-berkeley-mono",
+  src: [
+    {
+      path: "../public/fonts/TX-02-Regular.otf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/TX-02-Bold.otf",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/TX-02-Oblique.otf",
+      weight: "400",
+      style: "oblique",
+    },
+    {
+      path: "../public/fonts/TX-02-Bold-Oblique.otf",
+      weight: "700",
+      style: "oblique",
+    },
+  ],
+  variable: "--font-berkeley",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
