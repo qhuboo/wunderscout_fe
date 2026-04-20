@@ -5,14 +5,16 @@ import { HeatmapData } from "../types/types";
 import vertexShader from "./shaders/heatmapTerrainVertexShader.glsl";
 import fragmentShader from "./shaders/heatmapTerrainFragmentShader.glsl";
 
-export default function HeatmapTerrain({ data }: { data: HeatmapData }) {
+export default function HeatmapTerrain({ data }: { data?: unknown }) {
+  const heatmapData = data as HeatmapData;
+
   const dataTexture = useMemo(() => {
-    const width = data.x.length;
-    const height = data.y.length;
+    const width = heatmapData.x.length;
+    const height = heatmapData.y.length;
     const size = width * height;
 
     const textureData = new Float32Array(4 * size);
-    const flatValues = data.values.flat();
+    const flatValues = heatmapData.values.flat();
     const maxVal = Math.max(...flatValues) || 1.0;
 
     for (let i = 0; i < size; i++) {
@@ -53,7 +55,9 @@ export default function HeatmapTerrain({ data }: { data: HeatmapData }) {
 
   return (
     <mesh rotation={[-Math.PI / 2, 0, 0]}>
-      <planeGeometry args={[105, 68, data.x.length - 1, data.y.length - 1]} />
+      <planeGeometry
+        args={[105, 68, heatmapData.x.length - 1, heatmapData.y.length - 1]}
+      />
       <rawShaderMaterial
         vertexShader={vertexShader}
         fragmentShader={fragmentShader}

@@ -1,49 +1,45 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { type VisualizationType } from "@/app/types/types";
+
 import ThreeScene from "./ThreeScene";
+import GameUploadForm from "./GameUploadForm";
+import ProcessingMetrics from "./ProcessingMetrics";
+import MatchStatistics from "./MatchStatistics";
+import Footer from "./Footer";
 
-export default function GameScreen({ gameId, visualizationType } : { gameId: string; visualizationType: string }) {
-  const router = useRouter();
-  const handleClick = () => {
-    let nextVisualizationType;
-
-    if(visualizationType === "plane") {
-      nextVisualizationType = "heatmap";
-    } else {
-      nextVisualizationType = "plane";
-    }
-
-    router.push(`/123?type=${nextVisualizationType}`);
-  }
-
+export default function GameScreen({
+  gameData,
+  visualizationType,
+  data,
+}: {
+  gameData: unknown;
+  visualizationType: VisualizationType;
+  data: unknown;
+}) {
   return (
-    <div className="p-2 flex-1 border-3 border-dashed border-red-500">
+    <div className="p-2 flex-1">
       {/* Desktop Layout */}
-      <div className="hidden lg:grid lg:grid-cols-[30%_70%] h-full min-h-0 border-4 border-dotted border-emerald-800">
-        <div className="grid grid-rows-[auto_auto_1fr] border-2 border-amber-400">
-          <div className="border-1 border-dashed border-white">Item 1</div>
-          <div className="border-1 border-dashed border-white">Item 2</div>
-          <div className="border-1 border-dashed border-white">Item 3</div>
-        </div>
-        <div className="grid grid-rows-[1fr_7fr_auto] border-2 border-blue-300">
-          <div className="border-1 border-dashed border-white">
-            <button onClick={handleClick}>Click</button>
+      <div className="hidden lg:grid lg:grid-cols-[30%_70%] h-full min-h-0">
+        <MatchStatistics gameData={gameData} />
+        <div className="grid grid-rows-[auto_1fr_auto]">
+          <ProcessingMetrics />
+          <div className="relative overflow-hidden min-h-0">
+            <ThreeScene visualizationType={visualizationType} data={data} />
           </div>
-          <div className="relative overflow-hidden min-h-0 border-1 border-dashed border-white">
-            <ThreeScene visualizationType={visualizationType} />
-          </div>
-          <div className="border-1 border-dashed border-white">Item 3</div>
+          <Footer visualizationType={visualizationType} />
         </div>
       </div>
-      {/* Mobile Layout */}
+      {/* TODO: Mobile Layout */}
       <div className="lg:hidden h-full border-2 border-white">
         <div className="grid grid-rows-[1fr_7fr_auto] h-full">
           <div className="border-1 border-dashed border-white">Item 1</div>
           <div className="overflow-hidden min-h-0 border-1 border-dashed border-white">
-            <ThreeScene visualizationType={visualizationType} />
+            <ThreeScene visualizationType={visualizationType} data={data} />
           </div>
-          <div className="border-1 border-dashed border-white">Item 3</div>
+          <div className="border-1 border-dashed border-white">
+            <GameUploadForm />
+          </div>
         </div>
       </div>
     </div>

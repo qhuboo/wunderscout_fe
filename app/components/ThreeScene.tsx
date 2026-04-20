@@ -1,28 +1,33 @@
 "use client";
 
+import { VisualizationType } from "../types/types";
+
 import { Canvas, extend } from "@react-three/fiber";
-import { OrbitControls, Grid } from "@react-three/drei";
+import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 
-import { Raymarcher } from "./Raymarcher";
-import { Heatmap } from "./Heatmap";
-import Plane from "./Plane";
-
-import heatmapDataRaw from "../../lib/data/kde.json";
-import { HeatmapData } from "../types/types";
-const heatmapData = heatmapDataRaw as HeatmapData;
-
+import Logo from "./Logo";
 import HeatmapTerrain from "./HeatmapTerrain";
+import { ComponentType } from "react";
 
 extend({ AxesHelper: THREE.AxesHelper });
 
-const visualizationComponents = {
-  heatmap: HeatmapTerrain,
-  plane: Plane,
-}
+type VizProps = { data?: unknown };
 
-export default function ThreeScene({ visualizationType }: { visualizationType: string }) {
-  const SelectedVisualization = visualizationComponents[visualizationType as keyof typeof visualizationComponents];
+const visualizationComponents = {
+  kde: HeatmapTerrain,
+  histogram: HeatmapTerrain,
+  logo: Logo,
+} as const satisfies Record<VisualizationType, ComponentType<VizProps>>;
+
+export default function ThreeScene({
+  visualizationType,
+  data,
+}: {
+  visualizationType: VisualizationType;
+  data?: unknown;
+}) {
+  const SelectedVisualization = visualizationComponents[visualizationType];
 
   return (
     <Canvas
@@ -36,7 +41,7 @@ export default function ThreeScene({ visualizationType }: { visualizationType: s
       <directionalLight />
       <axesHelper args={[5]} />
       <OrbitControls />
-      <SelectedVisualization data={heatmapData} />
+      <SelectedVisualization data={data} />
     </Canvas>
   );
 }

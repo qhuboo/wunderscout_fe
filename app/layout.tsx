@@ -65,7 +65,7 @@ export default function RootLayout({
           <header className="p-4 text-2xl text-gray-500 shrink-0">
             WunderScout Analytics
           </header>
-          <main className="border-2 border-green-500 flex-1 flex">
+          <main className="flex-1 flex">
             {children}
           </main>
         </Providers>
