@@ -1,60 +1,86 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useRef,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 type WebSocketContextType = {
-	ws: WebSocket | null;
-	messages: any[];
+  ws: WebSocket | null;
+  messages: any[];
 };
 
-const WebSocketContex = createContext<WebSocketContextType | null>(null);
+const WebSocketContext = createContext<WebSocketContextType | null>(null);
 
 export const WebSocketProvider = ({
-	children,
+  children,
 }: {
-	children: React.ReactNode;
+  children: React.ReactNode;
 }) => {
-	const [ws, setWs] = useState<WebSocket | null>(null);
-	const [messages, setMessages] = useState<any[]>([]);
+  const [ws, setWs] = useState<WebSocket | null>(null);
+  const [messages, setMessages] = useState<any[]>([]);
 
-	useEffect(() => {
-		const socket = new WebSocket(`${process.env.NEXT_PUBLIC_WS_URL}`);
+  const reconnectTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pingInterval = useRef<ReturnType<typeof setInterval> | null>(null);
+  const wsRef = useRef<WebSocket | null>(null);
 
-		socket.onopen = () => {
-			console.log("FE[WebSocketProvider][onopen]: Connected to the WebSocket server.");
-		};
+  const connect = useCallback(() => {
+    const socket = new WebSocket(`${process.env.NEXT_PUBLIC_WS_URL}`);
+    wsRef.current = socket;
+    setWs(socket);
 
-		socket.onmessage = (event) => {
-			const data = JSON.parse(event.data);
-			console.log("FE[WebSocketProvider][onmessage]: Received: ", data);
-			setMessages((prev) => [...prev, data]);
-		};
+    socket.onopen = () => {
+      console.log(
+        "FE[WebSocketProvider][onopen]: Connected to the WebSocket server.",
+      );
+      pingInterval.current = setInterval(() => {
+        if (socket.readyState === WebSocket.OPEN) {
+          socket.send(JSON.stringify({ type: "ping" }));
+        }
+      }, 30000);
+    };
 
-		socket.onclose = () => {
-			console.log("FE[WebSocketProvider][onclose]: WebSocket closed, reconnecting ...");
-			setTimeout(() => {
-				setWs(new WebSocket("ws://localhost:4000"));
-			}, 1000);
-		};
+    socket.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      console.log("FE[WebSocketProvider][onmessage]: Received: ", data);
+      if (data?.type === "pong") return;
+      setMessages((prev) => [...prev, data]);
+    };
 
-		setWs(socket);
+    socket.onclose = () => {
+      console.log(
+        "FE[WebSocketProvider][onclose]: WebSocket closed, reconnecting ...",
+      );
+      clearInterval(pingInterval.current!);
+      reconnectTimeout.current = setTimeout(connect, 3000);
+    };
+  }, []);
 
-		return () => {
-			socket.close();
-		};
-	}, []);
+  useEffect(() => {
+    connect();
 
-	return (
-		<WebSocketContex.Provider value={{ ws, messages }}>
-			{children}
-		</WebSocketContex.Provider>
-	);
+    return () => {
+      clearInterval(pingInterval.current!);
+      clearTimeout(reconnectTimeout.current!);
+      wsRef.current?.close();
+    };
+  }, [connect]);
+
+  return (
+    <WebSocketContext.Provider value={{ ws, messages }}>
+      {children}
+    </WebSocketContext.Provider>
+  );
 };
 
 export const useWebSocket = () => {
-	const ctx = useContext(WebSocketContex);
-	if (!ctx) {
-		throw new Error("useWebSocket must be inside WebSocketProvider.");
-	}
-	return ctx;
+  const ctx = useContext(WebSocketContext);
+  if (!ctx) {
+    throw new Error("useWebSocket must be inside WebSocketProvider.");
+  }
+  return ctx;
 };
