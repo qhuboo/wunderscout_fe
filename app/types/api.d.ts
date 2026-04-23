@@ -79,6 +79,204 @@ export interface paths {
             };
           };
         };
+        /** @description Internal server error */
+        500: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              error: {
+                type: string;
+                code: string;
+                message: string;
+                status: number;
+              };
+            };
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/games/{gameId}/players/{playerId}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get player json data */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          gameId: string;
+          playerId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description Successful response */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              data: {
+                url: string;
+              };
+            };
+          };
+        };
+        /** @description Invalid request parameters */
+        400: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              error: {
+                type: string;
+                code: string;
+                message: string;
+                status: number;
+              };
+            };
+          };
+        };
+        /** @description Player data not found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              error: {
+                type: string;
+                code: string;
+                message: string;
+                status: number;
+              };
+            };
+          };
+        };
+        /** @description Internal server error */
+        500: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              error: {
+                type: string;
+                code: string;
+                message: string;
+                status: number;
+              };
+            };
+          };
+        };
+      };
+    };
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/games/{gameId}/teams/{teamId}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get team json data */
+    get: {
+      parameters: {
+        query?: never;
+        header?: never;
+        path: {
+          gameId: string;
+          teamId: string;
+        };
+        cookie?: never;
+      };
+      requestBody?: never;
+      responses: {
+        /** @description Successful response */
+        200: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              data: {
+                url: string;
+              };
+            };
+          };
+        };
+        /** @description Invalid request parameters */
+        400: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              error: {
+                type: string;
+                code: string;
+                message: string;
+                status: number;
+              };
+            };
+          };
+        };
+        /** @description Team data not found */
+        404: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              error: {
+                type: string;
+                code: string;
+                message: string;
+                status: number;
+              };
+            };
+          };
+        };
+        /** @description Internal server error */
+        500: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              error: {
+                type: string;
+                code: string;
+                message: string;
+                status: number;
+              };
+            };
+          };
+        };
       };
     };
     put?: never;
@@ -101,6 +299,8 @@ export interface components {
         status: number;
       };
     };
+    /** @enum {string} */
+    ArtifactType: "histogram" | "kde";
   };
   responses: never;
   parameters: never;
@@ -110,7 +310,3 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export type operations = Record<string, never>;
-
-export type GameData =
-  paths["/games/{gameId}"]["get"]["responses"]["200"]["content"]["application/json"];
-export type ApiError = components["schemas"]["ApiError"];

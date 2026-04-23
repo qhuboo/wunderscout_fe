@@ -7,7 +7,8 @@ import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 
 import Logo from "./Logo";
-import HeatmapTerrain from "./HeatmapTerrain";
+import Kde from "./Kde";
+import Histogram from "./Histogram";
 import { ComponentType } from "react";
 
 extend({ AxesHelper: THREE.AxesHelper });
@@ -15,8 +16,8 @@ extend({ AxesHelper: THREE.AxesHelper });
 type VizProps = { data?: unknown };
 
 const visualizationComponents = {
-  kde: HeatmapTerrain,
-  histogram: HeatmapTerrain,
+  kde: Kde,
+  histogram: Histogram,
   logo: Logo,
 } as const satisfies Record<VisualizationType, ComponentType<VizProps>>;
 

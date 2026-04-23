@@ -1,3 +1,9 @@
+import {
+  ApiErrorType,
+  GameDataType,
+  PlayerDataType,
+  TeamDataType,
+} from "@/app/types/types";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -56,16 +62,16 @@ export function uploadWithProgress(
 export async function fetchGameData(
   gameId: string,
   validSearchParams: URLSearchParams,
-) {
+): Promise<GameDataType | ApiErrorType> {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_URL}/games/${gameId}?${validSearchParams.toString()}`,
   );
 
   if (!res.ok) {
-    const error = await res.json();
+    const error: ApiErrorType = await res.json();
     return error;
   }
-  const data = await res.json();
+  const data: GameDataType = await res.json();
   return data;
 }
 
@@ -73,16 +79,16 @@ export async function fetchPlayerJsonUrl(
   gameId: string,
   playerId: string,
   validSearchParams: URLSearchParams,
-) {
+): Promise<PlayerDataType | ApiErrorType> {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_URL}/games/${gameId}/players/${playerId}?${validSearchParams.toString()}`,
   );
 
   if (!res.ok) {
-    const error = await res.json();
+    const error: ApiErrorType = await res.json();
     return error;
   }
-  const data = await res.json();
+  const data: PlayerDataType = await res.json();
   return data;
 }
 
@@ -90,16 +96,16 @@ export async function fetchTeamJsonUrl(
   gameId: string,
   teamId: string,
   validSearchParams: URLSearchParams,
-) {
+): Promise<TeamDataType | ApiErrorType> {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_URL}/games/${gameId}/teams/${teamId}?${validSearchParams.toString()}`,
   );
 
   if (!res.ok) {
-    const error = await res.json();
+    const error: ApiErrorType = await res.json();
     return error;
   }
-  const data = await res.json();
+  const data: TeamDataType = await res.json();
   return data;
 }
 

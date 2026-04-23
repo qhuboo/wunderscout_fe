@@ -1,13 +1,33 @@
-import { useSearchParams } from "next/navigation";
+"use client";
+
+import { useSearchParams, useRouter } from "next/navigation";
 import GameUploadForm from "./GameUploadForm";
-import { VisualizationType } from "../types/types";
+import { GameDataType } from "../types/types";
 
 export default function Footer({
-  visualizationType,
+  gameData,
 }: {
-  visualizationType: VisualizationType;
+  gameData: GameDataType["data"] | null;
 }) {
+  const router = useRouter();
   const searchParams = useSearchParams();
+
+  const visualizationType = searchParams.get("type");
+  const player = searchParams.get("player");
+
+  const validVisualizationTypes = gameData?.players.find(
+    (p) => p.id === Number(player),
+  )?.artifacts;
+
+  console.log(validVisualizationTypes);
+
+  const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("type", e.target.value);
+
+    router.push(`?${params.toString()}`);
+  };
+
   return (
     <div className="border border-[#333]">
       <div className="bg-black font-mono uppercase tracking-widest text-[#d1d1d1] border-t border-[#333] px-6 py-3">
@@ -20,7 +40,20 @@ export default function Footer({
             <div className="flex flex-col">
               <span className="text-xs text-[#444]">Visualization</span>
               <span className="text-xs text-[#22d3ee]">
-                {visualizationType}
+                {validVisualizationTypes && (
+                  <select
+                    name="visualizationType"
+                    value={visualizationType ? visualizationType : ""}
+                    onChange={handleTypeChange}
+                  >
+                    {validVisualizationTypes.map((type) => (
+                      <option key={type} value={type}>
+                        {type}
+                      </option>
+                    ))}
+                    <option value={"logo"}>logo</option>
+                  </select>
+                )}
               </span>
             </div>
 

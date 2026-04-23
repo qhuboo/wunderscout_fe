@@ -1,12 +1,12 @@
 import * as THREE from "three";
 import { useMemo } from "react";
-import { HeatmapData } from "../types/types";
+import { KdeData } from "../types/types";
 
-import vertexShader from "./shaders/heatmapTerrainVertexShader.glsl";
-import fragmentShader from "./shaders/heatmapTerrainFragmentShader.glsl";
+import vertexShader from "./shaders/kdeVertexShader.glsl";
+import fragmentShader from "./shaders/kdeFragmentShader.glsl";
 
-export default function HeatmapTerrain({ data }: { data?: unknown }) {
-  const heatmapData = data as HeatmapData;
+export default function Kde({ data }: { data?: unknown }) {
+  const heatmapData = data as KdeData;
 
   const dataTexture = useMemo(() => {
     const width = heatmapData.x.length;

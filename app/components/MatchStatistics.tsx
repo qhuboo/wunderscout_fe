@@ -1,6 +1,11 @@
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { type GameDataType } from "../types/types";
 
-export default function MatchStatistics({ gameData }: { gameData: unknown }) {
+export default function MatchStatistics({
+  gameData,
+}: {
+  gameData: GameDataType["data"] | null;
+}) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -49,17 +54,17 @@ export default function MatchStatistics({ gameData }: { gameData: unknown }) {
             <div className="text-[#97aed4ff] bg-[#021b44ff] p-1 text-sm">
               Description of goal event.
             </div>
-            <div className="bg-[#06142eff] p-1 text-sm">85'</div>
+            <div className="bg-[#06142eff] p-1 text-sm">85&apos;</div>
             <div className="bg-[#06142eff] p-1 text-sm">Tottenham</div>
             <div className="bg-[#06142eff] p-1 text-sm">
               Swaz volley str8 into the top bins.
             </div>
-            <div className="bg-[#06142eff] p-1 text-sm">85'</div>
+            <div className="bg-[#06142eff] p-1 text-sm">85&apos;</div>
             <div className="bg-[#06142eff] p-1 text-sm">Tottenham</div>
             <div className="bg-[#06142eff] p-1 text-sm">
               Swaz volley str8 into the top bins.
             </div>
-            <div className="bg-[#06142eff] p-1 text-sm">85'</div>
+            <div className="bg-[#06142eff] p-1 text-sm">85&apos;</div>
             <div className="bg-[#06142eff] p-1 text-sm">Tottenham</div>
             <div className="bg-[#06142eff] p-1 text-sm">
               Swaz volley str8 into the top bins.
@@ -128,21 +133,22 @@ export default function MatchStatistics({ gameData }: { gameData: unknown }) {
             </tr>
           </thead>
           <tbody>
-            {gameData?.players?.map((player) => (
-              <tr
-                key={player.id}
-                className="text-sm bg-[#05291D] text-[#047F54] border-1 border-dashed border-white"
-              >
-                <td
-                  className="text-left p-1 cursor-pointer"
-                  onClick={() => handlePlayerClick(player.id)}
+            {gameData &&
+              gameData.players.map((player) => (
+                <tr
+                  key={player.id}
+                  className="text-sm bg-[#05291D] text-[#047F54] border-1 border-dashed border-white"
                 >
-                  {player.id}
-                </td>
-                <td className="text-left px-2">{player.name}</td>
-                <td className="text-left px-2">{player.team_name}</td>
-              </tr>
-            ))}
+                  <td
+                    className="text-left p-1 cursor-pointer"
+                    onClick={() => handlePlayerClick(player.id)}
+                  >
+                    {player.id}
+                  </td>
+                  <td className="text-left px-2">{player.name}</td>
+                  <td className="text-left px-2">{player.team_name}</td>
+                </tr>
+              ))}
           </tbody>
         </table>
       </div>

@@ -26,12 +26,9 @@ export default async function Page({
   const player = validSearchParams.get("player");
   const team = validSearchParams.get("team");
 
-  console.log("type: ", type);
-  console.log("player: ", player);
-
   const res = await fetchGameData(gameId, validSearchParams);
 
-  if (res.error) {
+  if ("error" in res) {
     notFound();
   }
 
@@ -40,28 +37,28 @@ export default async function Page({
   let jsonData = null;
   if (type != "logo") {
     let url;
-    if (player && gameData.players.some((p) => p.id == player)) {
+    if (player && gameData.players.some((p) => p.id === Number(player))) {
       console.log("Fetching player data");
       const res = await fetchPlayerJsonUrl(gameId, player, validSearchParams);
 
-      if (res.error) {
+      if ("error" in res) {
         notFound();
       }
 
       const { data } = res;
-      url = data?.url;
+      url = data.url;
     }
 
-    if (team && gameData.teams.some((t) => t.id == team)) {
+    if (team && gameData.teams.some((t) => t.id === Number(team))) {
       console.log("Fetching team data");
       const res = await fetchTeamJsonUrl(gameId, team, validSearchParams);
 
-      if (res.error) {
+      if ("error" in res) {
         notFound();
       }
 
       const { data } = res;
-      url = data?.url;
+      url = data.url;
     }
 
     if (!url) {

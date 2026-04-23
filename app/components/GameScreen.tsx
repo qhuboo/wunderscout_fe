@@ -1,6 +1,6 @@
 "use client";
 
-import { type VisualizationType } from "@/app/types/types";
+import type { GameDataType, VisualizationType } from "@/app/types/types";
 
 import ThreeScene from "./ThreeScene";
 import GameUploadForm from "./GameUploadForm";
@@ -13,7 +13,7 @@ export default function GameScreen({
   visualizationType,
   data,
 }: {
-  gameData: unknown;
+  gameData: GameDataType["data"] | null;
   visualizationType: VisualizationType;
   data: unknown;
 }) {
@@ -27,7 +27,7 @@ export default function GameScreen({
           <div className="relative overflow-hidden min-h-0">
             <ThreeScene visualizationType={visualizationType} data={data} />
           </div>
-          <Footer visualizationType={visualizationType} />
+          <Footer gameData={gameData} />
         </div>
       </div>
       {/* TODO: Mobile Layout */}

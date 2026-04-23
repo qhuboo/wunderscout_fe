@@ -9,7 +9,7 @@ const VALID_TYPES: Record<"none" | "player" | "team", VisualizationType[]> = {
 };
 
 function isVisualizationType(val: string): val is VisualizationType {
-  return VISUALIZATION_TYPES.includes(val as VisualizationType);
+  return val in VISUALIZATION_TYPES;
 }
 
 export function validateSearchParams(
